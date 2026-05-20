@@ -1,0 +1,65 @@
+classDiagram
+    direction TB
+
+    class IGraph {
+        <<interface>>
+        +addVertex(vertex: String) void
+        +addEdge(vertex1: String, vertex2: String, weight: int) void
+        +removeEdge(vertex1: String, vertex2: String) void
+        +getVertexCount() int
+        +getIndex(vertex: String) int
+        +getVertex(index: int) String
+        +getAdjacencyMatrix() int[][]
+    }
+
+    class DirectedGraph {
+        +INF: int = Integer.MAX_VALUE/2$
+        -vertices: List~String~
+        -matrix: int[][]
+        -capacity: int
+        +DirectedGraph()
+        +addVertex(vertex: String) void
+        +addEdge(vertex1: String, vertex2: String, weight: int) void
+        +removeEdge(vertex1: String, vertex2: String) void
+        +getVertexCount() int
+        +getIndex(vertex: String) int
+        +getVertex(index: int) String
+        +getAdjacencyMatrix() int[][]
+        +printAdjacencyMatrix() void
+        -grow() void
+    }
+
+    class Floyd {
+        -dist: int[][]
+        -next: int[][]
+        -n: int
+        -INF: int$
+        +compute(adj: int[][]) void
+        +getDist(i: int, j: int) int
+        +getDistMatrix() int[][]
+        +getPath(from: int, to: int, graph: IGraph) List~String~
+        +getCenter(graph: IGraph) String
+        +printDistMatrix(graph: IGraph) void
+    }
+
+    class GraphFileReader {
+        +load(filePath: String, graph: DirectedGraph) void$
+    }
+
+    class Main {
+        -FILE_PATH: String$
+        -graph: DirectedGraph$
+        -floyd: Floyd$
+        +main(args: String[]) void$
+        -printMenu() void$
+        -handleShortestPath(sc: Scanner) void$
+        -handleCenter() void$
+        -handleModify(sc: Scanner) void$
+        -recomputeFloyd() void$
+    }
+
+    IGraph <|.. DirectedGraph : 
+    DirectedGraph <-- GraphFileReader : 
+    DirectedGraph <-- Main : 
+    Floyd <-- Main : 
+    IGraph <-- Floyd : 
